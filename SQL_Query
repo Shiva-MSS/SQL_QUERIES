@@ -1,0 +1,163 @@
+#### Create a Table:
+
+CREATE TABLE friends (
+  id INTEGER PRIMARY KEY,
+  name TEXT UNIQUE,
+  birthday DATE NOT NULL
+  );
+INSERT INTO friends(id, name, birthday)
+VALUES (1, 'Ororo Munroe', '1940-05-30');
+
+INSERT INTO friends(id, name, birthday)
+VALUES (2, 'Manisha', '1989-09-10');
+
+INSERT INTO friends(id, name, birthday)
+VALUES (3, 'Bhavani', '1990-06-30');
+
+
+UPDATE friends
+SET name = "Storm"
+WHERE id = 1;
+
+
+ALTER TABLE friends
+ADD COLUMN Email TEXT;
+
+UPDATE friends
+SET email = "storm@codecademy.com"
+WHERE id = 1;
+
+DELETE FROM friends
+WHERE name = "Storm";
+
+SELECT *
+FROM friends
+
+### SQL QUERIES to get NEWYORY RESTRAUNTS DATASET:
+SELECT DISTINCT neighborhood
+FROM nomnom
+limit 2;
+
+SELECT*  FROM nomnom
+WHERE cuisine = "Chinese" and review >= 4
+Limit 1;
+
+SELECT*  FROM nomnom
+WHERE cuisine = "Italian" and price >= '$$$'
+ORDER BY review desc
+Limit 1;
+
+SELECT*  FROM nomnom
+WHERE name like '%meatball%' ;
+
+SELECT * FROM nomnom
+WHERE neighborhood = 'Midtown'
+or neighborhood = 'Downtown' 
+or neighborhood = 'Chinatown'
+Limit 1; 
+
+SELECT name FROM nomnom
+WHERE health is NULL 
+Limit 1; 
+
+SELECT * FROM nomnom
+ORDER BY review DESC
+limit 10;
+
+SELECT name, neighborhood, health,
+CASE
+WHEN review > 4.5 THEN 'Extraordinary'
+WHEN review > 4 THEN 'Excellent'
+WHEN review > 3 THEN 'Good'
+WHEN review > 2 THEN 'Fair'
+ELSE 'Poor'
+END AS "rating"
+FROM nomnom;
+
+
+### Aggregate functions in SQL :
+
+Calculate the total number of companies in the table.
+We want to know the total value of all companies in this table.
+What is the highest amount raised by a startup?
+Edit the query so that it returns the maximum amount of money raised, during ‘Seed’ stage.
+In what year was the oldest company on the list founded?
+Let's find out the valuations among different sectors:
+Return the average valuation.
+Return the average valuation, in each category.
+What are the most competitive markets?
+First, return the name of each category with the total number of companies that belong to it.
+
+Next, filter the result to only include categories that have more than three companies in them.
+
+What are the most competitive markets?
+Let's see if there's a difference in startups sizes among different locations:
+What is the average size of a startup in each location?
+What is the average size of a startup in each location, with average sizes above 500?
+
+Below code answers above questions.
+
+SELECT COUNT(name) FROM startups;
+SELECT SUM(valuation) FROM startups;
+SELECT MAX(valuation) FROM startups
+WHERE stage ='seed';
+
+SELECT category, ROUND(AVG(valuation), 2) FROM startups
+WHERE valuation is NOT NULl
+GROUP BY category
+ORDER BY 2 DESC 
+limit 1;
+
+SELECT category, count (name) FROM startups
+GROUP BY category
+HAVING count(2) > 3 ;
+
+SELECT location, AVG(employees) FROM startups
+GROUP BY location
+HAVING AVG(employees) > 500
+ORDER BY 2 DESC ;
+
+
+### MULTIPLE TABLES : SQL QUERY:
+Lyft Trip Data
+
+SELECT *
+FROM cars;
+
+SELECT *
+FROM riders;
+
+SELECT trips.id, riders.username
+FROM trips
+LEFT JOIN riders
+ON trips.rider_id = riders.id
+limit 1;
+
+SELECT *
+FROM trips
+INNER JOIN cars
+ON trips.car_id = cars.id
+Limit 1;
+
+SELECT *
+FROM riders
+UNION
+SELECT *
+FROM riders2 ;
+
+SELECT AVG(cost) AS "Average_cost/trip"
+FROM trips;
+
+SELECT Count(*)
+FROM riders
+WHERE total_trips < 500 ;
+
+SELECT Count(*) AS "ACTIVE_CARS "
+FROM cars
+WHERE status == "active";
+
+SELECT id As "Asset_id"
+FROM cars
+ORDER BY trips_completed DESC
+Limit 2;
+
